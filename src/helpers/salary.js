@@ -1,11 +1,13 @@
 // Fonte: https://www.todacarreira.com/calculo-salario-liquido/
+
 const INSS_TABLE = [
   {
     id: 1,
-    minvalue: 0,
-    maxvalue: 1045,
+    minValue: 0,
+    maxValue: 1045,
     difference: 1045 - 0,
     discountPercentage: 0.075,
+    discountValue: -1,
   },
   {
     id: 2,
@@ -35,55 +37,62 @@ function round(value) {
 }
 
 function calculateDiscountINSS(baseINSS) {
+  let discountINSS = 0;
+
   if (baseINSS > 6101.07) {
     return 713.1;
   }
 
-  let discountINSS = 0;
   for (var i = 0; i < INSS_TABLE.length; i++) {
     var currentItem = INSS_TABLE[i];
     let discountValue = 0;
 
     if (baseINSS > currentItem.maxValue) {
-      //prettier-ignore
-      discountValue = round(currentItem.difference * currentItem.discountPercentage);
+      // prettier-ignore
+      discountValue = 
+        round(currentItem.difference * currentItem.discountPercentage);
+
       discountINSS += discountValue;
     } else {
       // prettier-ignore
-      discountValue = round((baseINSS - currentItem.minValue) * currentItem.discountPercentage);
+      discountValue = 
+        round((baseINSS - currentItem.minValue) * currentItem.discountPercentage);
+
       discountINSS += discountValue;
       break;
     }
   }
 
   discountINSS = round(discountINSS);
+
   return discountINSS;
 }
 
 function calculateDiscountIRPF(baseIRPF) {
-  let discountIRPF = baseIRPF < 1903.98
-    ? 0
-    : baseIRPF < 2826.65
-    ? round(baseIRPF * 0.075) - 142.8
-    : baseIRPF < 3751.05
-    ? round(baseIRPF * 0.15) - 354.8
-    : baseIRPF < 4664.68
-    ? round(baseIRPF * 0.225) - 636.13
-    : round(baseIRPF * 0.275) - 869.36;
-  
+  let discountIRPF =
+    baseIRPF < 1903.98
+      ? 0
+      : baseIRPF < 2826.65
+      ? round(baseIRPF * 0.075) - 142.8
+      : baseIRPF < 3751.05
+      ? round(baseIRPF * 0.15) - 354.8
+      : baseIRPF < 4664.68
+      ? round(baseIRPF * 0.225) - 636.13
+      : round(baseIRPF * 0.275) - 869.36;
+
   discountIRPF = round(discountIRPF);
+
   return discountIRPF;
 }
 
 function calculateSalaryFrom(fullSalary) {
   const baseINSS = fullSalary;
   const discountINSS = calculateDiscountINSS(baseINSS);
+
   const baseIRPF = baseINSS - discountINSS;
   const discountIRPF = calculateDiscountIRPF(baseIRPF);
-  const netSalary = fullSalary - discountINSS - discountIRPF;
-  const percentINSS = +((discountINSS / fullSalary) * 100).toFixed(2);
-  const percentIRPF = +((discountIRPF / fullSalary) * 100).toFixed(2);
-  const percentNetSalary = +((netSalary / fullSalary) * 100).toFixed(2);
+
+  const netSalary = baseINSS - discountINSS - discountIRPF;
 
   return {
     baseINSS,
@@ -91,9 +100,6 @@ function calculateSalaryFrom(fullSalary) {
     baseIRPF,
     discountIRPF,
     netSalary,
-    percentINSS,
-    percentIRPF,
-    percentNetSalary,
   };
 }
 
