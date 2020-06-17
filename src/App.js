@@ -1,26 +1,82 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import InputFullSalary from './components/InputFullSalary';
+import InputReadOnly from './components/InputReadOnly';
+
+import * as salaryHelpers from './helpers/salary';
+import ProgressBarSalary from './components/'
+
+const COLOR_INSS = '#e67e22';
+const COLOR_IRPF = '#c0392b';
+const COLOR_NET_SALARY = '#16a085';
+
+
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      fullSalary: 1000,
+    };
+    this.salaryObject = null;
+  }
+  
+  handleSalaryChange = (newSalary) => {
+    this.setState({ fullSalary: newSalary });
+  };
+
+  render() {
+    const { fullSalary } = this.state;
+
+    this.salaryObject = salaryHelpers.calculateSalaryFrom(fullSalary);
+
+    const {
+      baseINSS,
+      discountINSS,
+      baseIRPF,
+      discountIRPF,
+      netSalary,
+    } = this.salaryObject;
+
+    const percentINSS = (discountINSS / fullSalary) * 100;
+    const percentIRPF = (discountIRPF / fullSalary) * 100;
+    const percentNetSalary = 100 - percentINSS - percentIRPF;
+
+    return (
+      <div className="container">
+        <h1 className="center">React Salário</h1>
+
+        <div className="row">
+          <InputFullSalary
+            currentValue={fullSalary}
+            onSalaryChange={this.handleSalaryChange}
+          />
+
+          <InputReadOnly label="Base INSS:" value={baseINSS} />
+
+          <InputReadOnly
+            label="Desconto INSS:"
+            value={discountINSS}
+            percentage={percentINSS}
+            color={COLOR_INSS}
+          />
+
+          <InputReadOnly
+            label="Desconto IRPF:"
+            value={discountIRPF}
+            percentage={percentIRPF}
+            color={COLOR_IRPF}
+          />
+
+          <InputReadOnly
+            label="Salário líquido:"
+            value={netSalary}
+            percentage={percentNetSalary}
+            color={COLOR_NET_SALARY}
+          />
+        </div>
+
+        <Progre
+      </div>
+    );
+  }
 }
-
-export default App;

@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
-export default class ProportionBar extends Component {
+export default class ProgressBarSalary extends Component {
   render() {
     const {
-      inss,
-      irpf,
-      netSalary,
-      colorINSS = 'orange',
-      colorIRPF = 'red',
-      colorNetSalary = 'green',
+      percentINSS,
+      percentIRPF,
+      percentNetSalary,
+      colorINSS,
+      colorIRPF,
+      colorNetSalary,
     } = this.props;
-
-    console.log(this.props);
 
     return (
       <div
@@ -25,24 +23,26 @@ export default class ProportionBar extends Component {
         <div
           style={{
             backgroundColor: colorINSS,
-            width: inss + '%',
+            width: percentINSS + '%',
             height: '20px',
           }}
-        />
+        ></div>
+
         <div
           style={{
             backgroundColor: colorIRPF,
-            width: irpf + '%',
+            width: percentIRPF + '%',
             height: '20px',
           }}
-        />
+        ></div>
+
         <div
           style={{
             backgroundColor: colorNetSalary,
-            width: netSalary + '%',
+            width: percentNetSalary + '%',
             height: '20px',
           }}
-        />
+        ></div>
       </div>
     );
   }
