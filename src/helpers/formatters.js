@@ -1,19 +1,19 @@
-//const numberFormatter = Intl.NumberFormat('pt-BR');
+const numberFormatter = Intl.NumberFormat('pt-BR');
 const moneyFormatter = Intl.NumberFormat('pt-BR', {
   style: 'currency',
   currency: 'BRL',
 });
 
-// function formatNumber(value) {
-//   return numberFormatter.format(value);
-// }
-
-function formatMoney(value) {
-  return moneyFormatter.format(value);
+function formatNumber(number) {
+  return numberFormatter.format(number);
 }
 
-function formatPercentage(value) {
-  return `${value.toFixed(2).replace('.', ',')}%`;
+function formatMoney(number) {
+  return moneyFormatter.format(number);
 }
 
-export { formatMoney, formatPercentage };
+function formatPercentage(number) {
+  return `(${number.toFixed(2).replace('.', ',')}%)`;
+}
+
+export { formatNumber, formatMoney, formatPercentage };
