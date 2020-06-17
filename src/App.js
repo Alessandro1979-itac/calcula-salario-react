@@ -4,12 +4,11 @@ import InputFullSalary from './components/InputFullSalary';
 import InputReadOnly from './components/InputReadOnly';
 
 import * as salaryHelpers from './helpers/salary';
-import ProgressBarSalary from './components/'
+import ProgressBarSalary from './components/ProgressBarSalary';
 
 const COLOR_INSS = '#e67e22';
 const COLOR_IRPF = '#c0392b';
 const COLOR_NET_SALARY = '#16a085';
-
 
 export default class App extends Component {
   constructor() {
@@ -60,6 +59,8 @@ export default class App extends Component {
             color={COLOR_INSS}
           />
 
+          <InputReadOnly label="Base IRPF:" value={baseIRPF} />
+          
           <InputReadOnly
             label="Desconto IRPF:"
             value={discountIRPF}
@@ -75,7 +76,14 @@ export default class App extends Component {
           />
         </div>
 
-        <Progre
+        <ProgressBarSalary
+          percentINSS={percentINSS}
+          colorINSS={COLOR_INSS}
+          percentIRPF={percentIRPF}
+          colorIRPF={COLOR_IRPF}
+          percentNetSalary={percentNetSalary}
+          colorNetSalary={COLOR_NET_SALARY}
+        />
       </div>
     );
   }
